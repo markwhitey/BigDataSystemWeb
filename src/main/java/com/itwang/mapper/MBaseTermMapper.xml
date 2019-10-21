@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwang.mapper.MBaseTermMapper" >
+  <resultMap id="BaseResultMap" type="com.itwang.pojo.MBaseTerm" >
+    <result column="termid" property="termid" jdbcType="VARCHAR" />
+    <result column="termname" property="termname" jdbcType="VARCHAR" />
+    <result column="termaddr" property="termaddr" jdbcType="VARCHAR" />
+    <result column="dptcode" property="dptcode" jdbcType="VARCHAR" />
+    <result column="acccode" property="acccode" jdbcType="VARCHAR" />
+    <result column="dscrp" property="dscrp" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    termid, termname, termaddr, dptcode, acccode, dscrp
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.itwang.pojo.MBaseTermExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from m_base_term
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.itwang.pojo.MBaseTermExample" >
+    delete from m_base_term
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.itwang.pojo.MBaseTerm" >
+    insert into m_base_term (termid, termname, termaddr, 
+      dptcode, acccode, dscrp
+      )
+    values (#{termid,jdbcType=VARCHAR}, #{termname,jdbcType=VARCHAR}, #{termaddr,jdbcType=VARCHAR}, 
+      #{dptcode,jdbcType=VARCHAR}, #{acccode,jdbcType=VARCHAR}, #{dscrp,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.itwang.pojo.MBaseTerm" >
+    insert into m_base_term
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="termid != null" >
+        termid,
+      </if>
+      <if test="termname != null" >
+        termname,
+      </if>
+      <if test="termaddr != null" >
+        termaddr,
+      </if>
+      <if test="dptcode != null" >
+        dptcode,
+      </if>
+      <if test="acccode != null" >
+        acccode,
+      </if>
+      <if test="dscrp != null" >
+        dscrp,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="termid != null" >
+        #{termid,jdbcType=VARCHAR},
+      </if>
+      <if test="termname != null" >
+        #{termname,jdbcType=VARCHAR},
+      </if>
+      <if test="termaddr != null" >
+        #{termaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="dptcode != null" >
+        #{dptcode,jdbcType=VARCHAR},
+      </if>
+      <if test="acccode != null" >
+        #{acccode,jdbcType=VARCHAR},
+      </if>
+      <if test="dscrp != null" >
+        #{dscrp,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.itwang.pojo.MBaseTermExample" resultType="java.lang.Integer" >
+    select count(*) from m_base_term
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update m_base_term
+    <set >
+      <if test="record.termid != null" >
+        termid = #{record.termid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.termname != null" >
+        termname = #{record.termname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.termaddr != null" >
+        termaddr = #{record.termaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dptcode != null" >
+        dptcode = #{record.dptcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.acccode != null" >
+        acccode = #{record.acccode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dscrp != null" >
+        dscrp = #{record.dscrp,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update m_base_term
+    set termid = #{record.termid,jdbcType=VARCHAR},
+      termname = #{record.termname,jdbcType=VARCHAR},
+      termaddr = #{record.termaddr,jdbcType=VARCHAR},
+      dptcode = #{record.dptcode,jdbcType=VARCHAR},
+      acccode = #{record.acccode,jdbcType=VARCHAR},
+      dscrp = #{record.dscrp,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

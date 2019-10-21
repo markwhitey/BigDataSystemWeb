@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwang.mapper.BaseinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.itwang.pojo.Baseinfo" >
+    <id column="ouid" property="ouid" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="dept" property="dept" jdbcType="VARCHAR" />
+    <result column="idcard" property="idcard" jdbcType="VARCHAR" />
+    <result column="xingzuo" property="xingzuo" jdbcType="VARCHAR" />
+    <result column="sheng" property="sheng" jdbcType="VARCHAR" />
+    <result column="shi" property="shi" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <select id="selectAllInstitution" resultType="java.lang.String">
+    select DISTINCT dept from baseinfo where dept is not null
+  </select>
+  <sql id="Base_Column_List" >
+    ouid, name, dept, idcard, xingzuo, sheng, shi
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.itwang.pojo.BaseinfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from baseinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from baseinfo
+    where ouid = #{ouid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from baseinfo
+    where ouid = #{ouid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.itwang.pojo.BaseinfoExample" >
+    delete from baseinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.itwang.pojo.Baseinfo" >
+    insert into baseinfo (ouid, name, dept, 
+      idcard, xingzuo, sheng, 
+      shi)
+    values (#{ouid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{dept,jdbcType=VARCHAR}, 
+      #{idcard,jdbcType=VARCHAR}, #{xingzuo,jdbcType=VARCHAR}, #{sheng,jdbcType=VARCHAR}, 
+      #{shi,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.itwang.pojo.Baseinfo" >
+    insert into baseinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ouid != null" >
+        ouid,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="dept != null" >
+        dept,
+      </if>
+      <if test="idcard != null" >
+        idcard,
+      </if>
+      <if test="xingzuo != null" >
+        xingzuo,
+      </if>
+      <if test="sheng != null" >
+        sheng,
+      </if>
+      <if test="shi != null" >
+        shi,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ouid != null" >
+        #{ouid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="dept != null" >
+        #{dept,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null" >
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="xingzuo != null" >
+        #{xingzuo,jdbcType=VARCHAR},
+      </if>
+      <if test="sheng != null" >
+        #{sheng,jdbcType=VARCHAR},
+      </if>
+      <if test="shi != null" >
+        #{shi,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.itwang.pojo.BaseinfoExample" resultType="java.lang.Integer" >
+    select count(*) from baseinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update baseinfo
+    <set >
+      <if test="record.ouid != null" >
+        ouid = #{record.ouid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dept != null" >
+        dept = #{record.dept,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idcard != null" >
+        idcard = #{record.idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xingzuo != null" >
+        xingzuo = #{record.xingzuo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sheng != null" >
+        sheng = #{record.sheng,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shi != null" >
+        shi = #{record.shi,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update baseinfo
+    set ouid = #{record.ouid,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      dept = #{record.dept,jdbcType=VARCHAR},
+      idcard = #{record.idcard,jdbcType=VARCHAR},
+      xingzuo = #{record.xingzuo,jdbcType=VARCHAR},
+      sheng = #{record.sheng,jdbcType=VARCHAR},
+      shi = #{record.shi,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.itwang.pojo.Baseinfo" >
+    update baseinfo
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="dept != null" >
+        dept = #{dept,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null" >
+        idcard = #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="xingzuo != null" >
+        xingzuo = #{xingzuo,jdbcType=VARCHAR},
+      </if>
+      <if test="sheng != null" >
+        sheng = #{sheng,jdbcType=VARCHAR},
+      </if>
+      <if test="shi != null" >
+        shi = #{shi,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ouid = #{ouid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.itwang.pojo.Baseinfo" >
+    update baseinfo
+    set name = #{name,jdbcType=VARCHAR},
+      dept = #{dept,jdbcType=VARCHAR},
+      idcard = #{idcard,jdbcType=VARCHAR},
+      xingzuo = #{xingzuo,jdbcType=VARCHAR},
+      sheng = #{sheng,jdbcType=VARCHAR},
+      shi = #{shi,jdbcType=VARCHAR}
+    where ouid = #{ouid,jdbcType=VARCHAR}
+  </update>
+</mapper>

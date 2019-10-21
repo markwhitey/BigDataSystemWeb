@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwang.mapper.BookborrowAprioriMapper" >
+  <resultMap id="BaseResultMap" type="com.itwang.pojo.BookborrowApriori" >
+    <result column="confidence" property="confidence" jdbcType="DOUBLE" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.itwang.pojo.BookborrowApriori" extends="BaseResultMap" >
+    <result column="pre_items" property="preItems" jdbcType="LONGVARCHAR" />
+    <result column="latter_items" property="latterItems" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    confidence
+  </sql>
+  <sql id="Blob_Column_List" >
+    pre_items, latter_items
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.itwang.pojo.BookborrowAprioriExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from bookborrow_apriori
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.itwang.pojo.BookborrowAprioriExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from bookborrow_apriori
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.itwang.pojo.BookborrowAprioriExample" >
+    delete from bookborrow_apriori
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.itwang.pojo.BookborrowApriori" >
+    insert into bookborrow_apriori (confidence, pre_items, latter_items
+      )
+    values (#{confidence,jdbcType=DOUBLE}, #{preItems,jdbcType=LONGVARCHAR}, #{latterItems,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.itwang.pojo.BookborrowApriori" >
+    insert into bookborrow_apriori
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="confidence != null" >
+        confidence,
+      </if>
+      <if test="preItems != null" >
+        pre_items,
+      </if>
+      <if test="latterItems != null" >
+        latter_items,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="confidence != null" >
+        #{confidence,jdbcType=DOUBLE},
+      </if>
+      <if test="preItems != null" >
+        #{preItems,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="latterItems != null" >
+        #{latterItems,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.itwang.pojo.BookborrowAprioriExample" resultType="java.lang.Integer" >
+    select count(*) from bookborrow_apriori
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update bookborrow_apriori
+    <set >
+      <if test="record.confidence != null" >
+        confidence = #{record.confidence,jdbcType=DOUBLE},
+      </if>
+      <if test="record.preItems != null" >
+        pre_items = #{record.preItems,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.latterItems != null" >
+        latter_items = #{record.latterItems,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update bookborrow_apriori
+    set confidence = #{record.confidence,jdbcType=DOUBLE},
+      pre_items = #{record.preItems,jdbcType=LONGVARCHAR},
+      latter_items = #{record.latterItems,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update bookborrow_apriori
+    set confidence = #{record.confidence,jdbcType=DOUBLE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

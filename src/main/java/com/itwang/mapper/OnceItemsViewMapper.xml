@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwang.mapper.OnceItemsViewMapper" >
+  <resultMap id="BaseResultMap" type="com.itwang.pojo.OnceItemsView" >
+    <result column="outid" property="outid" jdbcType="VARCHAR" />
+    <result column="JSSJ" property="jssj" jdbcType="DATE" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.itwang.pojo.OnceItemsViewWithBLOBs" extends="BaseResultMap" >
+    <result column="book_items" property="bookItems" jdbcType="LONGVARCHAR" />
+    <result column="cat_items" property="catItems" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    outid, JSSJ
+  </sql>
+  <sql id="Blob_Column_List" >
+    book_items, cat_items
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.itwang.pojo.OnceItemsViewExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from once_items_view
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.itwang.pojo.OnceItemsViewExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from once_items_view
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.itwang.pojo.OnceItemsViewExample" >
+    delete from once_items_view
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.itwang.pojo.OnceItemsViewWithBLOBs" >
+    insert into once_items_view (outid, JSSJ, book_items, 
+      cat_items)
+    values (#{outid,jdbcType=VARCHAR}, #{jssj,jdbcType=DATE}, #{bookItems,jdbcType=LONGVARCHAR}, 
+      #{catItems,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.itwang.pojo.OnceItemsViewWithBLOBs" >
+    insert into once_items_view
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="outid != null" >
+        outid,
+      </if>
+      <if test="jssj != null" >
+        JSSJ,
+      </if>
+      <if test="bookItems != null" >
+        book_items,
+      </if>
+      <if test="catItems != null" >
+        cat_items,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="outid != null" >
+        #{outid,jdbcType=VARCHAR},
+      </if>
+      <if test="jssj != null" >
+        #{jssj,jdbcType=DATE},
+      </if>
+      <if test="bookItems != null" >
+        #{bookItems,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="catItems != null" >
+        #{catItems,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.itwang.pojo.OnceItemsViewExample" resultType="java.lang.Integer" >
+    select count(*) from once_items_view
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update once_items_view
+    <set >
+      <if test="record.outid != null" >
+        outid = #{record.outid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jssj != null" >
+        JSSJ = #{record.jssj,jdbcType=DATE},
+      </if>
+      <if test="record.bookItems != null" >
+        book_items = #{record.bookItems,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.catItems != null" >
+        cat_items = #{record.catItems,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update once_items_view
+    set outid = #{record.outid,jdbcType=VARCHAR},
+      JSSJ = #{record.jssj,jdbcType=DATE},
+      book_items = #{record.bookItems,jdbcType=LONGVARCHAR},
+      cat_items = #{record.catItems,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update once_items_view
+    set outid = #{record.outid,jdbcType=VARCHAR},
+      JSSJ = #{record.jssj,jdbcType=DATE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

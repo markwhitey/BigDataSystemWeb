@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwang.mapper.BookborrowMapper" >
+  <resultMap id="BaseResultMap" type="com.itwang.pojo.Bookborrow" >
+    <result column="XH" property="xh" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="XBMC" property="xbmc" jdbcType="VARCHAR" />
+    <result column="DWMC" property="dwmc" jdbcType="VARCHAR" />
+    <result column="TSMC" property="tsmc" jdbcType="VARCHAR" />
+    <result column="TSLB" property="tslb" jdbcType="VARCHAR" />
+    <result column="FLH1" property="flh1" jdbcType="VARCHAR" />
+    <result column="JHSJ" property="jhsj" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    XH, TYPE, XBMC, DWMC, TSMC, TSLB, FLH1, JHSJ
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.itwang.pojo.BookborrowExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from bookborrow
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+
+  <select id="selectByOutidLike" resultMap="BaseResultMap">
+    select XH,TSMC,TSLB,FLH1 from bookborrow where length(XH) = 12 AND
+    <foreach collection="list" open="(" close=")" item="item" separator="or">
+      XH like CONCAT(#{item},"%")
+    </foreach>
+  </select>
+<select id="getBookBorrowRank" resultType="com.itwang.pojo.BookBorrowRank">
+    SELECT
+        TSMC AS title,
+        count(*) AS count,
+        TSLB as category
+    FROM
+        bookborrow b
+    JOIN baseinfo a ON b.XH = a.ouid
+    <where>
+      <if test="grade != null">
+        b.XH like CONCAT(#{grade},"%")
+      </if>
+      <if test="xueyuan != null">
+        AND a.dept = #{xueyuan}
+      </if>
+    </where>
+    GROUP BY
+      title
+    ORDER BY
+      count DESC
+    limit 100
+</select>
+  <delete id="deleteByExample" parameterType="com.itwang.pojo.BookborrowExample" >
+    delete from bookborrow
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.itwang.pojo.Bookborrow" >
+    insert into bookborrow (XH, TYPE, XBMC, 
+      DWMC, TSMC, TSLB, FLH1, 
+      JHSJ)
+    values (#{xh,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{xbmc,jdbcType=VARCHAR}, 
+      #{dwmc,jdbcType=VARCHAR}, #{tsmc,jdbcType=VARCHAR}, #{tslb,jdbcType=VARCHAR}, #{flh1,jdbcType=VARCHAR}, 
+      #{jhsj,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.itwang.pojo.Bookborrow" >
+    insert into bookborrow
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="xh != null" >
+        XH,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="xbmc != null" >
+        XBMC,
+      </if>
+      <if test="dwmc != null" >
+        DWMC,
+      </if>
+      <if test="tsmc != null" >
+        TSMC,
+      </if>
+      <if test="tslb != null" >
+        TSLB,
+      </if>
+      <if test="flh1 != null" >
+        FLH1,
+      </if>
+      <if test="jhsj != null" >
+        JHSJ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="xh != null" >
+        #{xh,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="xbmc != null" >
+        #{xbmc,jdbcType=VARCHAR},
+      </if>
+      <if test="dwmc != null" >
+        #{dwmc,jdbcType=VARCHAR},
+      </if>
+      <if test="tsmc != null" >
+        #{tsmc,jdbcType=VARCHAR},
+      </if>
+      <if test="tslb != null" >
+        #{tslb,jdbcType=VARCHAR},
+      </if>
+      <if test="flh1 != null" >
+        #{flh1,jdbcType=VARCHAR},
+      </if>
+      <if test="jhsj != null" >
+        #{jhsj,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.itwang.pojo.BookborrowExample" resultType="java.lang.Integer" >
+    select count(*) from bookborrow
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update bookborrow
+    <set >
+      <if test="record.xh != null" >
+        XH = #{record.xh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        TYPE = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xbmc != null" >
+        XBMC = #{record.xbmc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dwmc != null" >
+        DWMC = #{record.dwmc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tsmc != null" >
+        TSMC = #{record.tsmc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tslb != null" >
+        TSLB = #{record.tslb,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flh1 != null" >
+        FLH1 = #{record.flh1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jhsj != null" >
+        JHSJ = #{record.jhsj,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update bookborrow
+    set XH = #{record.xh,jdbcType=VARCHAR},
+      TYPE = #{record.type,jdbcType=VARCHAR},
+      XBMC = #{record.xbmc,jdbcType=VARCHAR},
+      DWMC = #{record.dwmc,jdbcType=VARCHAR},
+      TSMC = #{record.tsmc,jdbcType=VARCHAR},
+      TSLB = #{record.tslb,jdbcType=VARCHAR},
+      FLH1 = #{record.flh1,jdbcType=VARCHAR},
+      JHSJ = #{record.jhsj,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

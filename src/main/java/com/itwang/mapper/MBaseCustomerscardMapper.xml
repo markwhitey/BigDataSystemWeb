@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwang.mapper.MBaseCustomerscardMapper" >
+  <resultMap id="BaseResultMap" type="com.itwang.pojo.MBaseCustomerscard" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="customerid" property="customerid" jdbcType="VARCHAR" />
+    <result column="outid" property="outid" jdbcType="VARCHAR" />
+    <result column="cardsn" property="cardsn" jdbcType="VARCHAR" />
+    <result column="scardsnr" property="scardsnr" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="asn" property="asn" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="oddfare" property="oddfare" jdbcType="VARCHAR" />
+    <result column="suboddfare" property="suboddfare" jdbcType="VARCHAR" />
+    <result column="onlineoddfare" property="onlineoddfare" jdbcType="VARCHAR" />
+    <result column="cardtype" property="cardtype" jdbcType="VARCHAR" />
+    <result column="idcardno" property="idcardno" jdbcType="VARCHAR" />
+    <result column="custdept" property="custdept" jdbcType="VARCHAR" />
+    <result column="dpfullname" property="dpfullname" jdbcType="VARCHAR" />
+    <result column="cardtypename" property="cardtypename" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, customerid, outid, cardsn, scardsnr, status, asn, name, oddfare, suboddfare, 
+    onlineoddfare, cardtype, idcardno, custdept, dpfullname, cardtypename
+  </sql>
+  <select id="selectByOutidLike" resultMap="BaseResultMap">
+    select outid,name,idcardno,dpfullname from m_base_customerscard where length(outid) = 12 AND
+    <foreach collection="list" open="(" close=")" item="item" separator="or">
+      outid like CONCAT(#{item},"%")
+    </foreach>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.itwang.pojo.MBaseCustomerscardExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from m_base_customerscard
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.itwang.pojo.MBaseCustomerscardExample" >
+    delete from m_base_customerscard
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.itwang.pojo.MBaseCustomerscard" >
+    insert into m_base_customerscard (id, customerid, outid, 
+      cardsn, scardsnr, status, 
+      asn, name, oddfare, 
+      suboddfare, onlineoddfare, cardtype, 
+      idcardno, custdept, dpfullname, 
+      cardtypename)
+    values (#{id,jdbcType=VARCHAR}, #{customerid,jdbcType=VARCHAR}, #{outid,jdbcType=VARCHAR}, 
+      #{cardsn,jdbcType=VARCHAR}, #{scardsnr,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{asn,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{oddfare,jdbcType=VARCHAR}, 
+      #{suboddfare,jdbcType=VARCHAR}, #{onlineoddfare,jdbcType=VARCHAR}, #{cardtype,jdbcType=VARCHAR}, 
+      #{idcardno,jdbcType=VARCHAR}, #{custdept,jdbcType=VARCHAR}, #{dpfullname,jdbcType=VARCHAR}, 
+      #{cardtypename,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.itwang.pojo.MBaseCustomerscard" >
+    insert into m_base_customerscard
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="customerid != null" >
+        customerid,
+      </if>
+      <if test="outid != null" >
+        outid,
+      </if>
+      <if test="cardsn != null" >
+        cardsn,
+      </if>
+      <if test="scardsnr != null" >
+        scardsnr,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="asn != null" >
+        asn,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="oddfare != null" >
+        oddfare,
+      </if>
+      <if test="suboddfare != null" >
+        suboddfare,
+      </if>
+      <if test="onlineoddfare != null" >
+        onlineoddfare,
+      </if>
+      <if test="cardtype != null" >
+        cardtype,
+      </if>
+      <if test="idcardno != null" >
+        idcardno,
+      </if>
+      <if test="custdept != null" >
+        custdept,
+      </if>
+      <if test="dpfullname != null" >
+        dpfullname,
+      </if>
+      <if test="cardtypename != null" >
+        cardtypename,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="customerid != null" >
+        #{customerid,jdbcType=VARCHAR},
+      </if>
+      <if test="outid != null" >
+        #{outid,jdbcType=VARCHAR},
+      </if>
+      <if test="cardsn != null" >
+        #{cardsn,jdbcType=VARCHAR},
+      </if>
+      <if test="scardsnr != null" >
+        #{scardsnr,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="asn != null" >
+        #{asn,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="oddfare != null" >
+        #{oddfare,jdbcType=VARCHAR},
+      </if>
+      <if test="suboddfare != null" >
+        #{suboddfare,jdbcType=VARCHAR},
+      </if>
+      <if test="onlineoddfare != null" >
+        #{onlineoddfare,jdbcType=VARCHAR},
+      </if>
+      <if test="cardtype != null" >
+        #{cardtype,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardno != null" >
+        #{idcardno,jdbcType=VARCHAR},
+      </if>
+      <if test="custdept != null" >
+        #{custdept,jdbcType=VARCHAR},
+      </if>
+      <if test="dpfullname != null" >
+        #{dpfullname,jdbcType=VARCHAR},
+      </if>
+      <if test="cardtypename != null" >
+        #{cardtypename,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.itwang.pojo.MBaseCustomerscardExample" resultType="java.lang.Integer" >
+    select count(*) from m_base_customerscard
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update m_base_customerscard
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerid != null" >
+        customerid = #{record.customerid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outid != null" >
+        outid = #{record.outid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardsn != null" >
+        cardsn = #{record.cardsn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.scardsnr != null" >
+        scardsnr = #{record.scardsnr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.asn != null" >
+        asn = #{record.asn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oddfare != null" >
+        oddfare = #{record.oddfare,jdbcType=VARCHAR},
+      </if>
+      <if test="record.suboddfare != null" >
+        suboddfare = #{record.suboddfare,jdbcType=VARCHAR},
+      </if>
+      <if test="record.onlineoddfare != null" >
+        onlineoddfare = #{record.onlineoddfare,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardtype != null" >
+        cardtype = #{record.cardtype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idcardno != null" >
+        idcardno = #{record.idcardno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.custdept != null" >
+        custdept = #{record.custdept,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dpfullname != null" >
+        dpfullname = #{record.dpfullname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardtypename != null" >
+        cardtypename = #{record.cardtypename,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update m_base_customerscard
+    set id = #{record.id,jdbcType=VARCHAR},
+      customerid = #{record.customerid,jdbcType=VARCHAR},
+      outid = #{record.outid,jdbcType=VARCHAR},
+      cardsn = #{record.cardsn,jdbcType=VARCHAR},
+      scardsnr = #{record.scardsnr,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      asn = #{record.asn,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      oddfare = #{record.oddfare,jdbcType=VARCHAR},
+      suboddfare = #{record.suboddfare,jdbcType=VARCHAR},
+      onlineoddfare = #{record.onlineoddfare,jdbcType=VARCHAR},
+      cardtype = #{record.cardtype,jdbcType=VARCHAR},
+      idcardno = #{record.idcardno,jdbcType=VARCHAR},
+      custdept = #{record.custdept,jdbcType=VARCHAR},
+      dpfullname = #{record.dpfullname,jdbcType=VARCHAR},
+      cardtypename = #{record.cardtypename,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

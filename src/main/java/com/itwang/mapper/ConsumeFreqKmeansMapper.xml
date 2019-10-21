@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwang.mapper.ConsumeFreqKmeansMapper" >
+  <resultMap id="BaseResultMap" type="com.itwang.pojo.ConsumeFreqKmeans" >
+    <id column="outid" property="outid" jdbcType="VARCHAR" />
+    <result column="breakfast_fre" property="breakfastFre" jdbcType="DOUBLE" />
+    <result column="lunch_fre" property="lunchFre" jdbcType="DOUBLE" />
+    <result column="dinner_fre" property="dinnerFre" jdbcType="DOUBLE" />
+    <result column="water_fre" property="waterFre" jdbcType="DOUBLE" />
+    <result column="shopping_fre" property="shoppingFre" jdbcType="DOUBLE" />
+    <result column="cluster" property="cluster" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    outid, breakfast_fre, lunch_fre, dinner_fre, water_fre, shopping_fre, cluster
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.itwang.pojo.ConsumeFreqKmeansExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from consume_freq_kmeans
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByOutidLike" resultMap="BaseResultMap">
+    select * from consume_freq_kmeans where
+    <foreach collection="list" open="(" close=")" item="item" separator="or">
+      outid like CONCAT(#{item},"%")
+    </foreach>
+  </select>
+  <select id="selectPercent" resultMap="BaseResultMap">
+    SELECT * FROM consume_freq_kmeans
+    <where>
+      <if test="grade != null">
+        outid like CONCAT(#{grade},"%")
+      </if>
+      <if test="interest != null">
+        and cluster = #{interest}
+      </if>
+    </where>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from consume_freq_kmeans
+    where outid = #{outid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from consume_freq_kmeans
+    where outid = #{outid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.itwang.pojo.ConsumeFreqKmeansExample" >
+    delete from consume_freq_kmeans
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.itwang.pojo.ConsumeFreqKmeans" >
+    insert into consume_freq_kmeans (outid, breakfast_fre, lunch_fre, 
+      dinner_fre, water_fre, shopping_fre, 
+      cluster)
+    values (#{outid,jdbcType=VARCHAR}, #{breakfastFre,jdbcType=DOUBLE}, #{lunchFre,jdbcType=DOUBLE}, 
+      #{dinnerFre,jdbcType=DOUBLE}, #{waterFre,jdbcType=DOUBLE}, #{shoppingFre,jdbcType=DOUBLE}, 
+      #{cluster,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.itwang.pojo.ConsumeFreqKmeans" >
+    insert into consume_freq_kmeans
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="outid != null" >
+        outid,
+      </if>
+      <if test="breakfastFre != null" >
+        breakfast_fre,
+      </if>
+      <if test="lunchFre != null" >
+        lunch_fre,
+      </if>
+      <if test="dinnerFre != null" >
+        dinner_fre,
+      </if>
+      <if test="waterFre != null" >
+        water_fre,
+      </if>
+      <if test="shoppingFre != null" >
+        shopping_fre,
+      </if>
+      <if test="cluster != null" >
+        cluster,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="outid != null" >
+        #{outid,jdbcType=VARCHAR},
+      </if>
+      <if test="breakfastFre != null" >
+        #{breakfastFre,jdbcType=DOUBLE},
+      </if>
+      <if test="lunchFre != null" >
+        #{lunchFre,jdbcType=DOUBLE},
+      </if>
+      <if test="dinnerFre != null" >
+        #{dinnerFre,jdbcType=DOUBLE},
+      </if>
+      <if test="waterFre != null" >
+        #{waterFre,jdbcType=DOUBLE},
+      </if>
+      <if test="shoppingFre != null" >
+        #{shoppingFre,jdbcType=DOUBLE},
+      </if>
+      <if test="cluster != null" >
+        #{cluster,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.itwang.pojo.ConsumeFreqKmeansExample" resultType="java.lang.Integer" >
+    select count(*) from consume_freq_kmeans
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update consume_freq_kmeans
+    <set >
+      <if test="record.outid != null" >
+        outid = #{record.outid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.breakfastFre != null" >
+        breakfast_fre = #{record.breakfastFre,jdbcType=DOUBLE},
+      </if>
+      <if test="record.lunchFre != null" >
+        lunch_fre = #{record.lunchFre,jdbcType=DOUBLE},
+      </if>
+      <if test="record.dinnerFre != null" >
+        dinner_fre = #{record.dinnerFre,jdbcType=DOUBLE},
+      </if>
+      <if test="record.waterFre != null" >
+        water_fre = #{record.waterFre,jdbcType=DOUBLE},
+      </if>
+      <if test="record.shoppingFre != null" >
+        shopping_fre = #{record.shoppingFre,jdbcType=DOUBLE},
+      </if>
+      <if test="record.cluster != null" >
+        cluster = #{record.cluster,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update consume_freq_kmeans
+    set outid = #{record.outid,jdbcType=VARCHAR},
+      breakfast_fre = #{record.breakfastFre,jdbcType=DOUBLE},
+      lunch_fre = #{record.lunchFre,jdbcType=DOUBLE},
+      dinner_fre = #{record.dinnerFre,jdbcType=DOUBLE},
+      water_fre = #{record.waterFre,jdbcType=DOUBLE},
+      shopping_fre = #{record.shoppingFre,jdbcType=DOUBLE},
+      cluster = #{record.cluster,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.itwang.pojo.ConsumeFreqKmeans" >
+    update consume_freq_kmeans
+    <set >
+      <if test="breakfastFre != null" >
+        breakfast_fre = #{breakfastFre,jdbcType=DOUBLE},
+      </if>
+      <if test="lunchFre != null" >
+        lunch_fre = #{lunchFre,jdbcType=DOUBLE},
+      </if>
+      <if test="dinnerFre != null" >
+        dinner_fre = #{dinnerFre,jdbcType=DOUBLE},
+      </if>
+      <if test="waterFre != null" >
+        water_fre = #{waterFre,jdbcType=DOUBLE},
+      </if>
+      <if test="shoppingFre != null" >
+        shopping_fre = #{shoppingFre,jdbcType=DOUBLE},
+      </if>
+      <if test="cluster != null" >
+        cluster = #{cluster,jdbcType=INTEGER},
+      </if>
+    </set>
+    where outid = #{outid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.itwang.pojo.ConsumeFreqKmeans" >
+    update consume_freq_kmeans
+    set breakfast_fre = #{breakfastFre,jdbcType=DOUBLE},
+      lunch_fre = #{lunchFre,jdbcType=DOUBLE},
+      dinner_fre = #{dinnerFre,jdbcType=DOUBLE},
+      water_fre = #{waterFre,jdbcType=DOUBLE},
+      shopping_fre = #{shoppingFre,jdbcType=DOUBLE},
+      cluster = #{cluster,jdbcType=INTEGER}
+    where outid = #{outid,jdbcType=VARCHAR}
+  </update>
+</mapper>
